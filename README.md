@@ -1,12 +1,17 @@
 # Vert.x Gradle Template
 
-Template project for creating a Vert.x module with a Gradle build.
+Server of WhereApp
 
-Clone this and adapt it to easily develop Vert.x modules using Gradle as your build tool.
+DONE : 
 
-By default this module contains a simple Java verticle which listens on the event bus and responds to `ping!`
-messages with `pong!`.
+LoginModule
+JoinModule
 
-This template also shows you how to write tests in Java, Groovy, Ruby and Python
+TODO :
+
+Query Processing Module
+User Mapping Module
+...
+
 
 See the [build script](build.gradle) for the list of useful tasks
