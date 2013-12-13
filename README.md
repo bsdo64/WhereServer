@@ -1,16 +1,16 @@
-# Vert.x Gradle Template
+# Server of WhereApp by Vert.x 
 
 Server of WhereApp
 
 DONE : 
 
-LoginModule
-JoinModule
+LoginModule<br>
+JoinModule<br>
 
 TODO :
 
-Query Processing Module
-User Mapping Module
+Query Processing Module<br>
+User Mapping Module<br>
 ...
 
 
