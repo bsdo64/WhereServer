@@ -45,13 +45,11 @@ public class MainVerticle extends Verticle {
 					protected void handle() {
 						System.out.println("Login Request is Arrived!");
 						System.out.println(req.uri());
-						String params = body.getString(0,body.length(),"UTF-8");
-						String[] temp = params.split("&");
-						String[] ids = temp[0].split("=");
-						String[] pwds = temp[1].split("=");
-						String id = ids[1];
-						String pwd = pwds[1];
+                        System.out.println(body.getString(0,body.length(),"UTF-8"));
+                        JsonObject json = new JsonObject(body.getString(0,body.length()));
 
+                        String id = json.getString("id");
+                        String pwd = json.getString("pwd");
 						System.out.println("ID is " + id);
 						WhereLogin wl = new WhereLogin(id,pwd);
 						req.response().setStatusCode(wl.authenticate()).setStatusMessage(wl.getInfo()).end();

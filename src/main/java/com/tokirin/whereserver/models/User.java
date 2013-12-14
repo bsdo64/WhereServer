@@ -9,6 +9,6 @@ public class User {
 	public String password;
 	public Location residence;
 	public Integer[] category;
-	public Location[] favorite; 
+	public Location[] favorite;
 
 }

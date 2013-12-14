@@ -2,6 +2,7 @@ package com.tokirin.whereserver.modules;
 
 import java.util.ArrayList;
 
+import com.google.gson.Gson;
 import org.vertx.java.core.json.JsonArray;
 import org.vertx.java.core.json.JsonObject;
 
@@ -15,25 +16,11 @@ import com.tokirin.whereserver.models.User;
 
 public class WhereJoin {
 	
-	public String id;
-	public String password;
-	public long residence_latitude;
-	public long residence_longitude;
-	public JsonArray category;
-	public JsonArray favorite;
+	User user;
 	
 	
 	public WhereJoin(JsonObject info){
-		
-		id = info.getString("id");
-		password = info.getString("password");
-		JsonObject residence = new JsonObject(info.getString("residence"));
-		residence_latitude = residence.getLong("latitude", (long) 200.00);
-		residence_longitude = residence.getLong("longitude",(long) 200.00);
-		category = info.getArray("category");
-		favorite=info.getArray("favorite");
-		
-		
+		user = new Gson().fromJson(info.toString(),User.class);
 	}
 	
 	public int join(){
@@ -42,46 +29,34 @@ public class WhereJoin {
 		ArrayList favorite = new ArrayList();
 		ArrayList category = new ArrayList();
 		BasicDBObject query = new BasicDBObject();
-		query.put("id",id);
+		query.put("id",user.id);
 		
 		if(coll.find(query).hasNext()){
-			System.out.println("Where Error :: " + id + " is duplicated id value");
+			System.out.println("Where Error :: " + user.id + " is duplicated id value");
 			return 403;
 		}
 		
 		BasicDBObject info = new BasicDBObject();
 		BasicDBObject residence = new BasicDBObject();
-		residence.put("latitude", residence_latitude);
-		residence.put("longitude", residence_longitude);
+		residence.put("latitude", user.residence.latitude);
+		residence.put("longitude", user.residence.longitude);
 		
-		info.put("id", id);
-		info.put("password", password);
+		info.put("id", user.id);
+		info.put("password", user.password);
 		info.put("residence", residence);
-		/*
-		for(JsonObject loc : favor){
-			BasicDBObject temp = new BasicDBObject();
-			temp.put("latitude", loc.getString("latitude"));
-			temp.put("longitude", loc.getString("longitude"));
-			favorite.add(temp);
-		}
-		
-		info.put("favorite", favorite);
-		*/
 
-		for(int i =0; i<this.favorite.size();i++){
-			
-			JsonObject temp = new JsonObject(this.favorite.get(i).toString());
-			BasicDBObject temp2 = new BasicDBObject();
-			temp2.put("latitude", temp.getLong("latitude"));
-			temp2.put("longitude", temp.getLong("longitude"));
-			favorite.add(temp2);
+		for(int i =0; i<user.favorite.length;i++){
+			BasicDBObject temp = new BasicDBObject();
+			temp.put("latitude", user.favorite[i].latitude);
+			temp.put("longitude", user.favorite[i].longitude);
+			favorite.add(temp);
 			
 		}
-		
+
 		info.put("favorite", favorite);
 		
-		for(int i =0; i<this.category.size();i++){
-			category.add(Integer.parseInt(this.category.get(i).toString()));
+		for(int i =0; i<user.category.length;i++){
+			category.add(user.category[i]);
 		}
 		
 		info.put("category", category);
