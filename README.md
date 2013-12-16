@@ -1,6 +1,6 @@
-# Server of WhereApp by Vert.x 
+# Server of WhereApp by Vert.x,Gradle and Java
 
-Server of WhereApp
+Server of WhereApp 
 
 DONE : 
 
