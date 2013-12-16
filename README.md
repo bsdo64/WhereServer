@@ -7,11 +7,12 @@ DONE :
 
 LoginModule<br>
 JoinModule<br>
+Query Processing Module<br>
+User Mapping Module<br>
 
 TODO :
 
-Query Processing Module<br>
-User Mapping Module<br>
+Fix the GCM Bug(GCM is Shit..)
 ...
 
 
