@@ -7,8 +7,8 @@ import com.mongodb.Mongo;
 
 public class MongoManager {
 	
-	public static Mongo mongo; 
-	public static DB db;
+	public Mongo mongo; 
+	public DB db;
 	
 	public MongoManager(){
 		try {

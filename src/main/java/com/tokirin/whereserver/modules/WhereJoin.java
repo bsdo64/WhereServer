@@ -60,7 +60,8 @@ public class WhereJoin {
 		}
 		
 		info.put("category", category);
-		
+		info.put("rad", user.rad);
+		info.put("mobileKey", user.mobileKey);
 		try{
 			coll.insert(info);
 			System.out.println("Join Success");

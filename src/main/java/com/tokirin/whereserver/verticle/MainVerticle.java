@@ -1,5 +1,8 @@
 package com.tokirin.whereserver.verticle;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.vertx.java.core.Handler;
 import org.vertx.java.core.VoidHandler;
 import org.vertx.java.core.buffer.Buffer;
@@ -10,8 +13,10 @@ import org.vertx.java.core.json.JsonObject;
 import org.vertx.java.platform.Verticle;
 
 import com.tokirin.whereserver.models.User;
+import com.tokirin.whereserver.modules.WhereGetRooms;
 import com.tokirin.whereserver.modules.WhereJoin;
 import com.tokirin.whereserver.modules.WhereLogin;
+import com.tokirin.whereserver.modules.WhereMakeChat;
 
 public class MainVerticle extends Verticle {
 
@@ -86,6 +91,61 @@ public class MainVerticle extends Verticle {
 				});
 				
 			}
+			
+		});
+		
+		rm.post("/:userId/query", new Handler<HttpServerRequest>(){
+
+			@Override
+			public void handle(final HttpServerRequest req) {
+
+				final Buffer body = new Buffer(0);
+				req.dataHandler(new Handler<Buffer>(){
+					@Override
+					public void handle(Buffer bf) {
+						body.appendBuffer(bf);
+					}
+				});
+				
+				req.endHandler(new VoidHandler(){
+					@Override
+					protected void handle() {
+						System.out.println(body.getString(0,body.length()));
+						JsonObject json = new JsonObject(body.getString(0,body.length()));
+						String id = req.params().get("userId");
+						System.out.println(id);
+						System.out.println(json.toString());
+
+						WhereMakeChat room = new WhereMakeChat(id,json);
+
+						Date now = new Date();
+						SimpleDateFormat fm = new SimpleDateFormat("yy-MM-dd a hh:mm:ss");
+						
+						JsonObject response = new JsonObject();
+						response.putString("owner",room.owner);
+						response.putString("hash", room.getHash());
+						System.out.println(room.getHash());
+						response.putString("question", room.question.query);
+						response.putString("time", room.question.time);
+						req.response().setChunked(true).write(response.toString(), "UTF-8").setStatusCode(200).end();
+					}
+				});
+				
+			}
+			
+			
+		});
+		
+		rm.get("/getRooms", new Handler<HttpServerRequest>(){
+
+			@Override
+			public void handle(HttpServerRequest req) {
+				String res = WhereGetRooms.get();
+				System.out.println("GetAnswerList");
+				System.out.println(res);
+				req.response().setChunked(true).write(res, "UTF-8").setStatusCode(200).end();
+			}
+			
 			
 		});
 		

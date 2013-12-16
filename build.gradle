@@ -3,6 +3,7 @@ apply from: "gradle/vertx.gradle"
 dependencies {
   compile 'org.mongodb:mongo-java-driver:2.11.3'
   compile 'com.google.code.gson:gson:2.2.4'
+  compile 'com.ganyo:gcm-server:1.0.2'
 }
 
 test {

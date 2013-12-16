@@ -10,5 +10,9 @@ public class User {
 	public Location residence;
 	public Integer[] category;
 	public Location[] favorite;
+	
+	//TODO: need to add these attribute in user DB
+	public String mobileKey;
+	public int rad;
 
 }
